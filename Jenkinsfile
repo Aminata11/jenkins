@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        DOCKER_HUB_USER = 'mhd0'
+        DOCKER_HUB_USER = 'aminata286'
         FRONT_IMAGE = 'react-frontend'
         BACK_IMAGE  = 'express-backend'
     }
@@ -19,7 +19,7 @@ pipeline {
                 [key: 'commit_message', value: '$.head_commit.message']
             ],
             causeString: 'Push par $pusher_name sur $ref: "$commit_message"',
-            token: 'mysecret',
+            token: 'aminagit',
             printContributedVariables: true,
             printPostContent: true
         )
@@ -28,7 +28,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/mhdgeek/express_mongo_react.git'
+                git branch: 'main', url: 'https://github.com/Aminata11/jenkins.git'
             }
         }
 
@@ -68,7 +68,7 @@ pipeline {
 
         stage('Push Docker Images') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'aminahub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
                         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                         docker push $DOCKER_USER/react-frontend:latest
@@ -123,14 +123,14 @@ pipeline {
             emailext(
                 subject: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "Pipeline réussi\nDétails : ${env.BUILD_URL}",
-                to: "mohamedndoye07@gmail.com"
+                to: "seckaminata87@gmail.com"
             )
         }
         failure {
             emailext(
                 subject: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "Le pipeline a échoué\nDétails : ${env.BUILD_URL}",
-                to: "mohamedndoye07@gmail.com"
+                to: "seckaminata87@gmail.com"
             )
         }
     }
